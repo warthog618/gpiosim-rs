@@ -127,7 +127,7 @@ impl Sim {
         if !self.dir.exists() {
             return;
         }
-        _ = write_attr(&self.dir, "live", "0");
+        let _ = write_attr(&self.dir, "live", "0");
         for (i, c) in self.chips.iter().enumerate() {
             let bank = format!("bank{}", i);
             let bank_dir = self.dir.join(&bank);
@@ -137,16 +137,16 @@ impl Sim {
             for offset in c.cfg.hogs.keys() {
                 let line_dir = bank_dir.join(&format!("line{}", offset));
                 let hog_dir = line_dir.join("hog");
-                _ = fs::remove_dir(hog_dir);
-                _ = fs::remove_dir(line_dir);
+                let _ = fs::remove_dir(hog_dir);
+                let _ = fs::remove_dir(line_dir);
             }
             for offset in c.cfg.names.keys() {
                 let line_dir = bank_dir.join(&format!("line{}", offset));
-                _ = fs::remove_dir(line_dir);
+                let _ = fs::remove_dir(line_dir);
             }
-            _ = fs::remove_dir(bank_dir);
+            let _ = fs::remove_dir(bank_dir);
         }
-        _ = fs::remove_dir(&self.dir);
+        let _ = fs::remove_dir(&self.dir);
         while self.dir.exists() {}
     }
 
