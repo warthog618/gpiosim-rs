@@ -156,6 +156,8 @@ dependencies = [
 [[package]]
 name = "gpiocdev"
 version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "73684385a9a4b4a9656cb0fd42f0d917b0b570914bd1916bb43f38d7d2d64095"
 dependencies = [
  "bitmaps",
  "chrono",
@@ -168,6 +170,8 @@ dependencies = [
 [[package]]
 name = "gpiocdev-uapi"
 version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "57f4c313b22ccd2628a60a388f7aae86e812841788957b7a409e33cb23e6a32b"
 dependencies = [
  "bitflags",
  "bitmaps",

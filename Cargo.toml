@@ -19,7 +19,7 @@ nohash-hasher = "0.2"
 thiserror = "1.0"
 
 [dev-dependencies]
-gpiocdev = {path = "../gpiocdev/lib", features = ["uapi_v1", "uapi_v2"]}
+gpiocdev = {version = "0.3.0", features = ["uapi_v1", "uapi_v2"]}
 
 [package.metadata.docs.rs]
 all-features = true
