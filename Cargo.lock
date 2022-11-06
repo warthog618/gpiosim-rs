@@ -183,7 +183,7 @@ dependencies = [
 
 [[package]]
 name = "gpiosim"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "global_counter",
  "gpiocdev",

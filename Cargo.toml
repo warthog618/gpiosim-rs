@@ -7,11 +7,12 @@ authors = ["Kent Gibson <warthog618@gmail.com>"]
 categories = ["embedded", "os::linux-apis", "development-tools::testing"]
 description = "A library to drive gpio-sims for GPIO software testing"
 edition = "2021"
-keywords = ["linux", "gpio", "library", "embedded"]
+rust-version = "1.56"
+keywords = ["linux", "gpio", "library", "embedded", "testing"]
 license = "Apache-2.0 OR MIT"
 name = "gpiosim"
 repository = "https://github.com/warthog618/gpiosim-rs"
-version = "0.2.0"
+version = "0.2.1"
 
 [dependencies]
 global_counter = "0.2"
