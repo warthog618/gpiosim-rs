@@ -10,7 +10,7 @@ edition = "2021"
 keywords = ["linux", "gpio", "library", "embedded"]
 license = "Apache-2.0 OR MIT"
 name = "gpiosim"
-repository = "https://github.com/warthog618/gpiocdev-rs"
+repository = "https://github.com/warthog618/gpiosim-rs"
 version = "0.2.0"
 
 [dependencies]
@@ -19,7 +19,7 @@ nohash-hasher = "0.2"
 thiserror = "1.0"
 
 [dev-dependencies]
-gpiocdev = {path = "../lib", features = ["uapi_v1", "uapi_v2"]}
+gpiocdev = {path = "../gpiocdev/lib", features = ["uapi_v1", "uapi_v2"]}
 
 [package.metadata.docs.rs]
 all-features = true
