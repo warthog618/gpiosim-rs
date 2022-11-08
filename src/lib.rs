@@ -39,14 +39,14 @@
 //!     .with_name("some unique name")
 //!     .with_bank(
 //!         Bank::new(8, "left")
-//!             .name(3, "banana")
-//!             .name(5, "apple")
+//!             .name(3, "LED0")
+//!             .name(5, "BUTTON1")
 //!             .hog(2, "hogster", Direction::OutputLow)
 //!         )
 //!     .with_bank(
 //!         Bank::new(42, "right")
-//!             .name(3, "piñata")
-//!             .name(4, "piggly")
+//!             .name(3, "BUTTON2")
+//!             .name(4, "LED2")
 //!             .hog(7, "hogster", Direction::OutputHigh),
 //!     )
 //!     .live()?;
