@@ -16,10 +16,10 @@ the Linux GPIO uAPI (both v1 and v2).
 The simulators are provided by the Linux **gpio-sim** kernel module and require a
 recent kernel (v5.19 or later) built with **CONFIG_GPIO_SIM**.
 
-Simulators contain one or more chips, each with a collection of lines being
+Simulators contain one or more **Chip**s, each with a collection of lines being
 simulated. A **Builder** is responsible for constructing the **Sim** and taking it live.
 Configuring a simulator involves adding **Bank**s, representing the
-chip, to the builder, then taking the simulator live.
+chip, to the builder.
 
 Once live, the **Chip** exposes lines which may be manipulated to drive the
 GPIO uAPI from the kernel side.
@@ -63,7 +63,7 @@ c.set_pull(5, Level::High);
 let level = c.get_level(3)?;
 ```
 
-Use a simpleton to create a single chip simulator with 12 lines, for where multiple chips or
+Use a **Simpleton** to create a single chip simulator with 12 lines, for where multiple chips or
 named lines are not required:
 
 ```rust

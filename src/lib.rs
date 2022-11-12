@@ -11,7 +11,7 @@
 //! Simulators ([`Sim`]) contain one or more chips, each with a collection of lines being
 //! simulated. The [`Builder`] is responsible for constructing the [`Sim`] and taking it live.
 //! Configuring a simulator involves adding [`Bank`]s, representing the
-//! chip, to the builder, then taking the simulator live.
+//! chip, to the [`Builder`].
 //!
 //! Once live, the [`Chip`] exposes lines which may be manipulated to drive the
 //! GPIO uAPI from the kernel side.
@@ -59,7 +59,7 @@
 //! # }
 //! ```
 //!
-//! Use a simpleton to create a single chip simulator with 12 lines, for where multiple chips or
+//! Use a [`Simpleton`] to create a single chip simulator with 12 lines, for where multiple chips or
 //! named lines are not required:
 //!
 //! ```no_run
@@ -70,6 +70,7 @@
 //! let s = Simpleton::new(12);
 //! let c = s.chip();
 //! c.set_pull(5, Level::High);
+//! c.set_pull(6, Level::Low);
 //! let level = c.get_level(3)?;
 //! # Ok(())
 //! # }
@@ -203,15 +204,23 @@ impl Drop for Sim {
 #[derive(Debug, Eq, PartialEq)]
 pub struct Chip {
     /// The path to the chip in /dev
+    ///
+    /// e.g. `/dev/gpiopchip0`
     pub dev_path: PathBuf,
 
     /// The name of the gpiochip in /dev and sysfs.
+    ///
+    /// e.g. `gpiochip0`
     pub chip_name: String,
 
     /// The name of the device in sysfs.
+    ///
+    /// e.g. `gpio-sim.0`
     pub dev_name: String,
 
     /// The path to the chip in /sys/device/platform.
+    ///
+    /// e.g. `/sys/devices/platform/gpio-sim.0`
     sysfs_path: PathBuf,
 
     /// The configuration for the chip.
