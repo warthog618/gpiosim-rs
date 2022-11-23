@@ -161,7 +161,7 @@ impl Sim {
             for (offset, name) in &c.cfg.names {
                 let line_dir = bank_dir.join(&format!("line{}", offset));
                 fs::create_dir(&line_dir)?;
-                write_attr(&line_dir, "name", &name.as_bytes())?;
+                write_attr(&line_dir, "name", name.as_bytes())?;
             }
             for (offset, hog) in &c.cfg.hogs {
                 let line_dir = bank_dir.join(&format!("line{}", offset));
@@ -170,7 +170,7 @@ impl Sim {
                 }
                 let hog_dir = line_dir.join("hog");
                 fs::create_dir(&hog_dir)?;
-                write_attr(&hog_dir, "name", &hog.consumer.as_bytes())?;
+                write_attr(&hog_dir, "name", hog.consumer.as_bytes())?;
                 write_attr(&hog_dir, "direction", &hog.direction.to_string())?;
             }
         }
