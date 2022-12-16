@@ -5,7 +5,7 @@ SPDX-License-Identifier: CC0-1.0
 -->
 # gpiosim
 
-[![Build Status](https://img.shields.io/github/workflow/status/warthog618/gpiosim-rs/Build.svg?logo=github)](https://github.com/warthog618/gpiosim-rs/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/warthog618/gpiosim-rs/rust.yml?logo=github&branch=master)](https://github.com/warthog618/gpiosim-rs/actions/workflows/rust.yml)
 [![github](https://img.shields.io/badge/github-warthog618/gpiosim--rs-8da0cb.svg?logo=github)](https://github.com/warthog618/gpiosim-rs)
 [![crate](https://img.shields.io/crates/v/gpiosim.svg?color=fc8d62&logo=rust)](https://crates.io/crates/gpiosim)
 ![LICENSE](https://img.shields.io/crates/l/gpiosim.svg)
