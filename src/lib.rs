@@ -131,18 +131,18 @@ impl Sim {
         let _ = write_attr(&self.dir, "live", "0");
         for (i, c) in self.chips.iter().enumerate() {
             let bank = format!("bank{}", i);
-            let bank_dir = self.dir.join(&bank);
+            let bank_dir = self.dir.join(bank);
             if !bank_dir.exists() {
                 continue;
             }
             for offset in c.cfg.hogs.keys() {
-                let line_dir = bank_dir.join(&format!("line{}", offset));
+                let line_dir = bank_dir.join(format!("line{}", offset));
                 let hog_dir = line_dir.join("hog");
                 let _ = fs::remove_dir(hog_dir);
                 let _ = fs::remove_dir(line_dir);
             }
             for offset in c.cfg.names.keys() {
-                let line_dir = bank_dir.join(&format!("line{}", offset));
+                let line_dir = bank_dir.join(format!("line{}", offset));
                 let _ = fs::remove_dir(line_dir);
             }
             let _ = fs::remove_dir(bank_dir);
@@ -156,22 +156,22 @@ impl Sim {
             let bank_dir = self.dir.join(format!("bank{}", i));
             fs::create_dir(&bank_dir)?;
             write_attr(&bank_dir, "label", c.cfg.label.as_bytes())?;
-            write_attr(&bank_dir, "num_lines", &format!("{}", c.cfg.num_lines))?;
+            write_attr(&bank_dir, "num_lines", format!("{}", c.cfg.num_lines))?;
 
             for (offset, name) in &c.cfg.names {
-                let line_dir = bank_dir.join(&format!("line{}", offset));
+                let line_dir = bank_dir.join(format!("line{}", offset));
                 fs::create_dir(&line_dir)?;
                 write_attr(&line_dir, "name", name.as_bytes())?;
             }
             for (offset, hog) in &c.cfg.hogs {
-                let line_dir = bank_dir.join(&format!("line{}", offset));
+                let line_dir = bank_dir.join(format!("line{}", offset));
                 if !line_dir.exists() {
                     fs::create_dir(&line_dir)?;
                 }
                 let hog_dir = line_dir.join("hog");
                 fs::create_dir(&hog_dir)?;
                 write_attr(&hog_dir, "name", hog.consumer.as_bytes())?;
-                write_attr(&hog_dir, "direction", &hog.direction.to_string())?;
+                write_attr(&hog_dir, "direction", hog.direction.to_string())?;
             }
         }
         Ok(())
