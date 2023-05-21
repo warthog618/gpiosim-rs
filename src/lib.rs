@@ -293,7 +293,9 @@ pub fn builder() -> Builder {
 ///
 /// This is sufficient for tests that do not require named lines, hogged lines
 /// or multiple chips.
-pub struct Simpleton(Sim);
+pub struct Simpleton {
+    pub sim: Sim,
+}
 
 impl Simpleton {
     /// Build a basic single bank sim and take it live.
@@ -303,17 +305,17 @@ impl Simpleton {
     ///
     ///
     pub fn new(num_lines: u32) -> Simpleton {
-        Simpleton(
-            builder()
+        Simpleton {
+            sim: builder()
                 .with_bank(&Bank::new(num_lines, "simpleton"))
                 .live()
                 .unwrap(),
-        )
+        }
     }
 
     /// Return the only chip simulated by the Simpleton.
     pub fn chip(&self) -> &Chip {
-        &self.0.chips[0]
+        &self.sim.chips[0]
     }
 }
 
@@ -558,10 +560,7 @@ fn configfs_mountpoint() -> Option<PathBuf> {
         let r = BufReader::new(f);
         for line in r.lines().flatten() {
             let words: Vec<&str> = line.split_ascii_whitespace().collect();
-            if words.len() < 6 {
-                continue;
-            }
-            if words[0] == "configfs" {
+            if words.len() >= 6 && words[2] == "configfs" {
                 return Some(PathBuf::from(words[1]));
             }
         }

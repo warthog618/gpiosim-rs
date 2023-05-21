@@ -12,6 +12,7 @@ mod simpleton {
     #[test]
     fn goes_live() {
         let s = Simpleton::new(12);
+        assert_eq!(s.sim.chips().len(), 1);
         let c = s.chip();
         assert_eq!(c.cfg.num_lines, 12);
         assert_eq!(c.cfg.label, "simpleton");
