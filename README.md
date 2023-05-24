@@ -13,8 +13,8 @@ SPDX-License-Identifier: CC0-1.0
 A Rust library for creating and controlling GPIO simulators for testing users of
 the Linux GPIO uAPI (both v1 and v2).
 
-The simulators are provided by the Linux **gpio-sim** kernel module and require a
-recent kernel (v5.19 or later) built with **CONFIG_GPIO_SIM**.
+The simulators are provided by the Linux [**gpio-sim**](https://www.kernel.org/doc/html/latest/admin-guide/gpio/gpio-sim.html) kernel module and require a
+recent kernel (5.19 or later) built with **CONFIG_GPIO_SIM**.
 
 Simulators contain one or more **Chip**s, each with a collection of lines being
 simulated. A **Builder** is responsible for constructing the **Sim** and taking it live.
@@ -25,10 +25,13 @@ Once live, the **Chip** exposes lines which may be manipulated to drive the
 GPIO uAPI from the kernel side.
 For input lines, applying a pull using **Chip** pull methods controls the level
 of the simulated line.  For output lines, the **Chip.get_level** method returns
-the level the simulated line is being driven to.
+the level the simulated line is being driven to by userspace.
 
-For simple tests that only require lines on a single chip, the **Simpleton**
-provides a simplified interface.
+For tests that only require lines on a single chip, the **Simpleton**
+provides a slightly simpler interface.
+
+Dropping the **Sim** deconstructs the simulator, removing the **gpio-sim**
+configuration and the corresponding gpiochips.
 
 Configuring a simulator involves *configfs*, and manipulating the chips once live
 involves *sysfs*, so root permissions are typically required to run a simulator.
@@ -68,9 +71,8 @@ named lines are not required:
 
 ```rust
 let s = gpiosim::Simpleton::new(12);
-let c = s.chip();
-c.set_pull(5, Level::High);
-let level = c.get_level(3)?;
+s.set_pull(5, Level::High);
+let level = s.get_level(3)?;
 ```
 
 ## License
