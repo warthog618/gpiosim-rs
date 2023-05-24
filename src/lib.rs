@@ -224,10 +224,15 @@ pub struct Chip {
     sysfs_path: PathBuf,
 
     /// The configuration for the chip.
-    pub cfg: Bank,
+    cfg: Bank,
 }
 
 impl Chip {
+    /// The configuration for the chip
+    pub fn config(&self) -> &Bank {
+        &self.cfg
+    }
+
     /// The path to the chip in /dev
     ///
     /// e.g. `/dev/gpiopchip0`
@@ -323,6 +328,11 @@ impl Simpleton {
     /// Return the only chip simulated by the Simpleton.
     pub fn chip(&self) -> &Chip {
         &self.sim.chips[0]
+    }
+
+    /// The configuration for the Simpleton chip
+    pub fn config(&self) -> &Bank {
+        &self.sim.chips[0].cfg
     }
 
     /// Return path to the chip in /dev.

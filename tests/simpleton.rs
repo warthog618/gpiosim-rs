@@ -15,8 +15,8 @@ mod simpleton {
         let s = Simpleton::new(12);
         assert_eq!(s.sim.chips().len(), 1);
         let c = s.chip();
-        assert_eq!(c.cfg.num_lines, 12);
-        assert_eq!(c.cfg.label, "simpleton");
+        assert_eq!(c.config().num_lines, 12);
+        assert_eq!(c.config().label, "simpleton");
 
         let cdevc = chip::Chip::from_path(c.dev_path());
         assert!(cdevc.is_ok());
