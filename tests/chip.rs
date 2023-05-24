@@ -33,16 +33,16 @@ mod chip {
         assert_eq!(c0.cfg.num_lines, 8);
         assert_eq!(c0.cfg.label, "veintidós");
         assert!(!c0.dev_name.is_empty());
-        assert!(c0.dev_path.exists());
+        assert!(c0.dev_path().exists());
 
         let c1 = &sim.chips()[1];
         assert_eq!(c1.cfg.num_lines, 42);
         assert_eq!(c1.cfg.label, "babel");
         assert!(!c1.dev_name.is_empty());
-        assert!(c1.dev_path.exists());
+        assert!(c1.dev_path().exists());
 
         assert_eq!(c0.dev_name, c1.dev_name);
-        assert_ne!(c0.dev_path, c1.dev_path);
+        assert_ne!(c0.dev_path(), c1.dev_path());
     }
 
     #[test]
@@ -51,7 +51,7 @@ mod chip {
         let c = s.chip();
 
         let req = Request::builder()
-            .on_chip(&c.dev_path)
+            .on_chip(c.dev_path())
             .with_line(5)
             .as_input()
             .request();
@@ -84,7 +84,7 @@ mod chip {
         let c = s.chip();
 
         let req = Request::builder()
-            .on_chip(&c.dev_path)
+            .on_chip(c.dev_path())
             .with_line(4)
             .as_input()
             .request();
@@ -104,12 +104,12 @@ mod chip {
     }
 
     #[test]
-    fn get_value() {
+    fn get_level() {
         let s = Simpleton::new(8);
         let c = s.chip();
 
         let req = Request::builder()
-            .on_chip(&c.dev_path)
+            .on_chip(c.dev_path())
             .with_line(3)
             .as_output(line::Value::Inactive)
             .request();

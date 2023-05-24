@@ -206,7 +206,7 @@ pub struct Chip {
     /// The path to the chip in /dev
     ///
     /// e.g. `/dev/gpiopchip0`
-    pub dev_path: PathBuf,
+    dev_path: PathBuf,
 
     /// The name of the gpiochip in /dev and sysfs.
     ///
@@ -228,6 +228,13 @@ pub struct Chip {
 }
 
 impl Chip {
+    /// The path to the chip in /dev
+    ///
+    /// e.g. `/dev/gpiopchip0`
+    pub fn dev_path(&self) -> &PathBuf {
+        &self.dev_path
+    }
+
     /// Pull a line to simulate the line being externally driven.
     pub fn set_pull(&self, offset: Offset, pull: Level) -> Result<()> {
         let value = match pull {
@@ -316,6 +323,41 @@ impl Simpleton {
     /// Return the only chip simulated by the Simpleton.
     pub fn chip(&self) -> &Chip {
         &self.sim.chips[0]
+    }
+
+    /// Return path to the chip in /dev.
+    pub fn dev_path(&self) -> &PathBuf {
+        &self.sim.chips[0].dev_path
+    }
+
+    /// Pull a line to simulate the line being externally driven.
+    pub fn set_pull(&self, offset: Offset, pull: Level) -> Result<()> {
+        self.sim.chips[0].set_pull(offset, pull)
+    }
+
+    /// Pull a line up to simulate the line being externally driven high.
+    pub fn pullup(&self, offset: Offset) -> Result<()> {
+        self.set_pull(offset, Level::High)
+    }
+
+    /// Pull a line down to simulate the line being externally driven low.
+    pub fn pulldown(&self, offset: Offset) -> Result<()> {
+        self.set_pull(offset, Level::Low)
+    }
+
+    /// Toggle the pull on a line.
+    pub fn toggle(&self, offset: Offset) -> Result<Level> {
+        self.sim.chips[0].toggle(offset)
+    }
+
+    /// Get the current state of the simulated external pull on a line.
+    pub fn get_pull(&self, offset: Offset) -> Result<Level> {
+        self.sim.chips[0].get_pull(offset)
+    }
+
+    /// Get the current output value for a simulated output line.
+    pub fn get_level(&self, offset: Offset) -> Result<Level> {
+        self.sim.chips[0].get_level(offset)
     }
 }
 

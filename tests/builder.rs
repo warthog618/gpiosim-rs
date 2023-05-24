@@ -38,7 +38,7 @@ mod builder {
         let c0 = &chips[0];
         assert_eq!(c0.cfg.num_lines, 8);
 
-        let cdevc = chip::Chip::from_path(&c0.dev_path);
+        let cdevc = chip::Chip::from_path(c0.dev_path());
         assert!(cdevc.is_ok());
         let cdevc = cdevc.unwrap();
         let info = cdevc.info();
@@ -103,7 +103,7 @@ mod builder {
         let c1 = &chips[1];
         assert_eq!(c1.cfg.num_lines, 42);
 
-        let cdevc = chip::Chip::from_path(&c1.dev_path);
+        let cdevc = chip::Chip::from_path(c1.dev_path());
         assert!(cdevc.is_ok());
         let cdevc = cdevc.unwrap();
         let info = cdevc.info();
