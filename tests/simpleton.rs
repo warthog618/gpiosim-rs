@@ -14,18 +14,17 @@ mod simpleton {
     fn goes_live() {
         let s = Simpleton::new(12);
         assert_eq!(s.sim.chips().len(), 1);
-        let c = s.chip();
-        assert_eq!(c.config().num_lines, 12);
-        assert_eq!(c.config().label, "simpleton");
+        assert_eq!(s.config().num_lines, 12);
+        assert_eq!(s.config().label, "simpleton");
 
-        let cdevc = chip::Chip::from_path(c.dev_path());
-        assert!(cdevc.is_ok());
-        let cdevc = cdevc.unwrap();
+        let c = chip::Chip::from_path(s.dev_path());
+        assert!(c.is_ok());
+        let cdevc = c.unwrap();
         let info = cdevc.info();
         assert!(info.is_ok());
         let info = info.unwrap();
         let xinfo = chip::Info {
-            name: String::from(&c.chip_name),
+            name: String::from(&s.chip().chip_name),
             label: "simpleton".into(),
             num_lines: 12,
         };

@@ -12,7 +12,7 @@ mod chip {
 
     #[test]
     fn live_attrs() {
-        let sim = gpiosim::builder()
+        let s = gpiosim::builder()
             .with_bank(
                 Bank::new(8, "veintidós")
                     .name(3, "banana")
@@ -29,13 +29,13 @@ mod chip {
             .live()
             .unwrap();
 
-        let c0 = &sim.chips()[0];
+        let c0 = &s.chips()[0];
         assert_eq!(c0.config().num_lines, 8);
         assert_eq!(c0.config().label, "veintidós");
         assert!(!c0.dev_name.is_empty());
         assert!(c0.dev_path().exists());
 
-        let c1 = &sim.chips()[1];
+        let c1 = &s.chips()[1];
         assert_eq!(c1.config().num_lines, 42);
         assert_eq!(c1.config().label, "babel");
         assert!(!c1.dev_name.is_empty());

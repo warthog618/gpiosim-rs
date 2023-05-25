@@ -13,7 +13,7 @@ mod builder {
     #[test]
     fn goes_live() {
         let name = gpiosim::unique_name("gpiosim", Some("live"));
-        let sim = gpiosim::builder()
+        let s = gpiosim::builder()
             .with_name(&name)
             .with_bank(
                 Bank::new(8, "veintidós")
@@ -31,8 +31,8 @@ mod builder {
             .live()
             .unwrap();
 
-        assert_eq!(sim.name(), &name);
-        let chips = sim.chips();
+        assert_eq!(s.name(), &name);
+        let chips = s.chips();
 
         // c0
         let c0 = &chips[0];
@@ -172,12 +172,12 @@ mod builder {
                     .name(4, "piggly")
                     .hog(7, "hogster", Direction::OutputHigh),
             );
-        let sim1 = builder.live();
-        assert!(sim1.is_ok());
+        let s1 = builder.live();
+        assert!(s1.is_ok());
 
-        let sim2 = builder.live();
+        let s2 = builder.live();
         assert_eq!(
-            sim2.unwrap_err().to_string(),
+            s2.unwrap_err().to_string(),
             Error::SimulatorExists(name).to_string()
         );
     }
