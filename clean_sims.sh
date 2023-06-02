@@ -8,8 +8,9 @@
 # preventing it from cleaning up the sims it created, or if you
 # created a sim using basic_sim.sh.
 
-find /sys/kernel/config/gpio-sim -type d -name hog -print0 2>/dev/null | xargs -0 -r rmdir
-find /sys/kernel/config/gpio-sim -type d -name "line*" -print0  2>/dev/null | xargs -0 -r rmdir
-find /sys/kernel/config/gpio-sim -type d -name "bank*" -print0 2>/dev/null | xargs -0 -r rmdir
-rmdir /sys/kernel/config/gpio-sim/*
+SIMDIR="/sys/kernel/config/gpio-sim"
+find $SIMDIR -type d -name hog -exec rmdir '{}' '+'
+find $SIMDIR -type d -name "line*" -exec rmdir '{}' '+'
+find $SIMDIR -type d -name "bank*" -exec rmdir '{}' '+'
+rmdir $SIMDIR/*
 
