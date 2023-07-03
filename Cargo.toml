@@ -18,10 +18,16 @@ version = "0.3.0"
 global_counter = "0.2"
 nohash-hasher = "0.2"
 thiserror = "1.0"
+cap-std = "2.0"
 
 [dev-dependencies]
+criterion = "0.5"
 gpiocdev = {version = "0.4", features = ["uapi_v1", "uapi_v2"]}
 
 [package.metadata.docs.rs]
 all-features = true
 targets = ["x86_64-unknown-linux-gnu", "i686-unknown-linux-gnu"]
+
+[[bench]]
+name = "pull"
+harness = false

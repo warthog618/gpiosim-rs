@@ -79,6 +79,7 @@
 //! [`Chip.set_pull`]: struct.Chip.html#method.set_pull
 //! [`Chip.get_level`]: struct.Chip.html#method.get_level
 
+use cap_std::fs::Dir;
 use nohash_hasher::IntMap;
 use std::env;
 use std::ffi::OsString;
@@ -171,7 +172,7 @@ impl Sim {
                 let hog_dir = line_dir.join("hog");
                 fs::create_dir(&hog_dir)?;
                 write_attr(&hog_dir, "name", hog.consumer.as_bytes())?;
-                write_attr(&hog_dir, "direction", hog.direction.to_string())?;
+                write_attr(&hog_dir, "direction", hog.direction.as_str())?;
             }
         }
         Ok(())
@@ -184,9 +185,13 @@ impl Sim {
             let chip_name = read_attr(&bank_dir, "chip_name")?;
             c.dev_path = "/dev".into();
             c.dev_path.push(&chip_name);
-            c.sysfs_path = "/sys/devices/platform".into();
-            c.sysfs_path.push(&dev_name);
-            c.sysfs_path.push(&chip_name);
+            let mut sysfs_path = PathBuf::from("/sys/devices/platform");
+            sysfs_path.push(&dev_name);
+            sysfs_path.push(&chip_name);
+            c.sysfs_dir = Some(Dir::open_ambient_dir(
+                sysfs_path,
+                cap_std::ambient_authority(),
+            )?);
             c.chip_name = chip_name;
             c.dev_name = dev_name.clone();
         }
@@ -201,7 +206,7 @@ impl Drop for Sim {
 }
 
 /// A live simulated chip.
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug)]
 pub struct Chip {
     /// The path to the chip in /dev
     ///
@@ -221,7 +226,7 @@ pub struct Chip {
     /// The path to the chip in /sys/device/platform.
     ///
     /// e.g. `/sys/devices/platform/gpio-sim.0`
-    sysfs_path: PathBuf,
+    sysfs_dir: Option<Dir>,
 
     /// The configuration for the chip.
     cfg: Bank,
@@ -246,8 +251,12 @@ impl Chip {
             Level::Low => "pull-down",
             Level::High => "pull-up",
         };
-        let dir = self.sysfs_path.join(format!("sim_gpio{}", offset));
-        write_attr(&dir, "pull", value)
+        let path = format!("sim_gpio{}/pull", offset);
+        self.sysfs_dir
+            .as_ref()
+            .unwrap()
+            .write(path, value)
+            .map_err(Error::IoError)
     }
 
     /// Pull a line up to simulate the line being externally driven high.
@@ -271,8 +280,13 @@ impl Chip {
     }
 
     fn get_attr(&self, offset: Offset, attr: &str) -> Result<String> {
-        let dir = self.sysfs_path.join(format!("sim_gpio{}", offset));
-        read_attr(&dir, attr)
+        let path = format!("sim_gpio{}/{}", offset, attr);
+        self.sysfs_dir
+            .as_ref()
+            .unwrap()
+            .read_to_string(path)
+            .map(|s| s.trim().to_string())
+            .map_err(Error::IoError)
     }
 
     /// Get the current state of the simulated external pull on a line.
@@ -295,6 +309,12 @@ impl Chip {
         }
     }
 }
+impl PartialEq for Chip {
+    fn eq(&self, other: &Self) -> bool {
+        self.dev_path == other.dev_path
+    }
+}
+impl Eq for Chip {}
 
 /// Start building a GPIO simulator.
 pub fn builder() -> Builder {
@@ -434,7 +454,7 @@ impl Builder {
                 dev_path: PathBuf::default(),
                 chip_name: String::default(),
                 dev_name: String::default(),
-                sysfs_path: PathBuf::default(),
+                sysfs_dir: None,
             })
         }
         sim.live()?;
@@ -539,12 +559,12 @@ pub enum Direction {
     OutputHigh,
 }
 
-impl std::string::ToString for Direction {
-    fn to_string(&self) -> String {
+impl Direction {
+    fn as_str(&self) -> &'static str {
         match self {
-            Direction::Input => "input".into(),
-            Direction::OutputHigh => "output-high".into(),
-            Direction::OutputLow => "output-low".into(),
+            Direction::Input => "input",
+            Direction::OutputHigh => "output-high",
+            Direction::OutputLow => "output-low",
         }
     }
 }
@@ -557,6 +577,16 @@ pub enum Level {
 
     /// The line is physically low.
     Low,
+}
+
+impl Level {
+    /// Toggle the level between high and low.
+    pub fn toggle(&self) -> Level {
+        match self {
+            Level::High => Level::Low,
+            Level::Low => Level::High,
+        }
+    }
 }
 
 /// Create a unique, but predictable, name for the simulator.
