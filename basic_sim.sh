@@ -16,7 +16,7 @@
 #            )
 #            .with_bank(
 #                Bank::new(12, "vegatable")
-#                    .name(3, "argula")
+#                    .name(3, "arugula")
 #                    .name(5, "broccoli")
 #                    .name(7, "celery")
 #                    .hog(2, "hog2", Direction::Input),
@@ -41,7 +41,7 @@ mkdir /sys/kernel/config/gpio-sim/basic/bank1
 echo "vegetable" > /sys/kernel/config/gpio-sim/basic/bank1/label
 echo 12 > /sys/kernel/config/gpio-sim/basic/bank1/num_lines
 mkdir /sys/kernel/config/gpio-sim/basic/bank1/line3
-echo "argula" > /sys/kernel/config/gpio-sim/basic/bank1/line3/name
+echo "arugula" > /sys/kernel/config/gpio-sim/basic/bank1/line3/name
 mkdir /sys/kernel/config/gpio-sim/basic/bank1/line5
 echo "broccoli" > /sys/kernel/config/gpio-sim/basic/bank1/line5/name
 mkdir /sys/kernel/config/gpio-sim/basic/bank1/line7
