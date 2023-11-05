@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- move shell helpers into examples
+- add basic_sim.rs example
+
 <a name="v0.3.1"></a>
 
 ## [v0.3.1] - 2023-07-04

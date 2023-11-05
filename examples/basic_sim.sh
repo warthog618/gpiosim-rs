@@ -1,4 +1,4 @@
-#!/bin/env sh
+#!/bin/sh
 # SPDX-FileCopyrightText: 2022 Kent Gibson <warthog618@gmail.com>
 #
 # SPDX-License-Identifier: Apache-2.0 OR MIT
@@ -12,17 +12,21 @@
 #                Bank::new(8, "fruit")
 #                    .name(3, "banana")
 #                    .name(5, "apple")
-#                    .hog(1, "hog1", Direction::OutputHigh),
+#                    .hog(1, "hog1", Direction::OutputHigh)
 #            )
 #            .with_bank(
 #                Bank::new(12, "vegatable")
 #                    .name(3, "arugula")
 #                    .name(5, "broccoli")
 #                    .name(7, "celery")
-#                    .hog(2, "hog2", Direction::Input),
-#                    .hog(8, "hog3", Direction::OutputLow),
+#                    .hog(2, "hog2", Direction::Input)
+#                    .hog(8, "hog3", Direction::OutputLow)
 #            )
 #            .live()
+
+modprobe configfs
+mountpoint /sys/kernel/config > /dev/null || mount -t configfs configfs /sys/kernel/config
+modprobe gpio-sim
 
 mkdir /sys/kernel/config/gpio-sim/basic
 
