@@ -2,8 +2,13 @@
 
 ## [Unreleased]
 
+<a name="v0.3.2"></a>
+
+## [v0.3.2] - 2024-02-20
+
 - move shell helpers into examples
 - add basic_sim.rs example
+- update dependencies
 
 <a name="v0.3.1"></a>
 
