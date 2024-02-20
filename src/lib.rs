@@ -640,7 +640,7 @@ fn default_name() -> String {
 fn configfs_mountpoint() -> Option<PathBuf> {
     if let Ok(f) = File::open("/proc/mounts") {
         let r = BufReader::new(f);
-        for line in r.lines().flatten() {
+        for line in r.lines().map_while(|x| x.ok()) {
             let words: Vec<&str> = line.split_ascii_whitespace().collect();
             if words.len() >= 6 && words[2] == "configfs" {
                 return Some(PathBuf::from(words[1]));
