@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
 use gpiosim::{Bank, Direction};
-use std::result::Result;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     gpiosim::builder()

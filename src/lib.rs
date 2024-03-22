@@ -193,7 +193,7 @@ impl Sim {
                 cap_std::ambient_authority(),
             )?);
             c.chip_name = chip_name;
-            c.dev_name = dev_name.clone();
+            c.dev_name.clone_from(&dev_name);
         }
         Ok(())
     }
