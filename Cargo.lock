@@ -281,7 +281,6 @@ dependencies = [
  "criterion",
  "global_counter",
  "gpiocdev",
- "nohash-hasher",
  "thiserror",
 ]
 

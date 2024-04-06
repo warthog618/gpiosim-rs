@@ -80,10 +80,11 @@
 //! [`Chip.get_level`]: struct.Chip.html#method.get_level
 
 use cap_std::fs::Dir;
-use nohash_hasher::IntMap;
+use std::collections::HashMap;
 use std::env;
 use std::ffi::OsString;
 use std::fs::{self, File};
+use std::hash::{BuildHasherDefault, Hasher};
 use std::io::prelude::*;
 use std::io::BufReader;
 use std::os::unix::ffi::OsStringExt;
@@ -466,6 +467,27 @@ impl Builder {
 /// The offset of a line on a chip.
 pub type Offset = u32;
 
+/// A map from offset to T.
+pub type OffsetMap<T> = HashMap<Offset, T, BuildHasherDefault<OffsetHasher>>;
+
+/// A simple identity hasher for maps using Offsets as keys.
+#[derive(Default)]
+pub struct OffsetHasher(u64);
+
+impl Hasher for OffsetHasher {
+    fn finish(&self) -> u64 {
+        self.0
+    }
+
+    fn write(&mut self, _: &[u8]) {
+        panic!("OffsetHasher key must be u32")
+    }
+
+    fn write_u32(&mut self, n: u32) {
+        self.0 = n.into()
+    }
+}
+
 /// The configuration for a single simulated chip.
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct Bank {
@@ -476,10 +498,10 @@ pub struct Bank {
     pub label: String,
 
     /// Lines assigned a name.
-    pub names: IntMap<Offset, String>,
+    pub names: OffsetMap<String>,
 
     /// Lines that appear to be already in use by some other entity.
-    pub hogs: IntMap<Offset, Hog>,
+    pub hogs: OffsetMap<Hog>,
 }
 
 impl Bank {
@@ -488,8 +510,8 @@ impl Bank {
         Bank {
             num_lines,
             label: label.into(),
-            names: IntMap::default(),
-            hogs: IntMap::default(),
+            names: OffsetMap::default(),
+            hogs: OffsetMap::default(),
         }
     }
 

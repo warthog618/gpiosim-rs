@@ -16,7 +16,6 @@ version = "0.3.2"
 
 [dependencies]
 global_counter = "0.2"
-nohash-hasher = "0.2"
 thiserror = "1.0"
 cap-std = "3.0"
 
