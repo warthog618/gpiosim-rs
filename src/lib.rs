@@ -90,11 +90,9 @@ use std::io::BufReader;
 use std::os::unix::ffi::OsStringExt;
 use std::path::{Path, PathBuf};
 use std::process;
+use std::sync::atomic::{AtomicU32, Ordering};
 use std::thread::sleep;
 use std::time::Duration;
-
-#[macro_use]
-extern crate global_counter;
 
 /// A live simulator of one or more chips.
 #[derive(Debug, Eq, PartialEq)]
@@ -620,9 +618,14 @@ impl Level {
 ///   - N is a counter of the sims created, starting at 0
 ///   - instance is optionally provided by the caller
 pub fn unique_name(app: &str, instance: Option<&str>) -> String {
-    global_counter!(SIM_COUNT, u32, 0);
+    static SIM_COUNT: AtomicU32 = AtomicU32::new(0);
 
-    let mut name = format!("{}-p{}-{}", app, process::id(), SIM_COUNT.inc_cloning());
+    let mut name = format!(
+        "{}-p{}-{}",
+        app,
+        process::id(),
+        SIM_COUNT.fetch_add(1, Ordering::Relaxed)
+    );
     if let Some(i) = instance {
         name += "-";
         name += i;

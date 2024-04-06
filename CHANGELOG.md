@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 - remove nohash-hasher dependency
+- remove global_counter dependency
 
 <a name="v0.3.2"></a>
 
