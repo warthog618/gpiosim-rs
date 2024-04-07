@@ -615,16 +615,16 @@ impl Level {
 /// where:
 ///   - the app name provided by the caller
 ///   - pid is the process id
-///   - N is a counter of the sims created, starting at 0
+///   - N is a counter of names generated, starting at 0
 ///   - instance is optionally provided by the caller
 pub fn unique_name(app: &str, instance: Option<&str>) -> String {
-    static SIM_COUNT: AtomicU32 = AtomicU32::new(0);
+    static NAME_COUNT: AtomicU32 = AtomicU32::new(0);
 
     let mut name = format!(
         "{}-p{}-{}",
         app,
         process::id(),
-        SIM_COUNT.fetch_add(1, Ordering::Relaxed)
+        NAME_COUNT.fetch_add(1, Ordering::Relaxed)
     );
     if let Some(i) = instance {
         name += "-";
