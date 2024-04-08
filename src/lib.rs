@@ -655,7 +655,7 @@ fn app_name() -> String {
             }
         }
     }
-    "gpiocdev".into()
+    "gpiosim".into()
 }
 
 fn default_name() -> String {
