@@ -12,7 +12,7 @@ keywords = ["linux", "gpio", "gpiochip", "library", "testing"]
 license = "Apache-2.0 OR MIT"
 name = "gpiosim"
 repository = "https://github.com/warthog618/gpiosim-rs"
-version = "0.3.2"
+version = "0.4.0"
 
 [dependencies]
 thiserror = "1.0"
