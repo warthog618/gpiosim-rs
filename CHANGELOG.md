@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+<a name="v0.4.1"></a>
+
+## [v0.4.1] - 2025-01-25
+
+- update thiserror dependency to 2.0.
+- check for symlinks masking gpiochips.
+
 <a name="v0.4.0"></a>
 
 ## [v0.4.0] - 2024-04-09
