@@ -184,6 +184,17 @@ impl Sim {
             let chip_name = read_attr(&bank_dir, "chip_name")?;
             c.dev_path = "/dev".into();
             c.dev_path.push(&chip_name);
+            // Flag anyone (e.g. Raspberry Pi) fixing their backward compatibility gpiochip renumbering
+            // issues using symlinks that then conflict with dynamically created gpiochips.
+            // This can result in the gpio-sim users inadvertently driving ACTUAL hardware,
+            // which is obviously something that can not be allowed, so bail out.
+            let metadata = fs::symlink_metadata(&c.dev_path)?;
+            assert!(
+                !metadata.is_symlink(),
+                "A symlink ({}) is masking device {}.  Please remove the symlink.",
+                &c.dev_path.display(),
+                &chip_name,
+            );
             let mut sysfs_path = PathBuf::from("/sys/devices/platform");
             sysfs_path.push(&dev_name);
             sysfs_path.push(&chip_name);
