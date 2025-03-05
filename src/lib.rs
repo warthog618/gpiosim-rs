@@ -79,7 +79,6 @@
 //! [`Chip.set_pull`]: struct.Chip.html#method.set_pull
 //! [`Chip.get_level`]: struct.Chip.html#method.get_level
 
-use cap_std::fs::Dir;
 use std::collections::HashMap;
 use std::env;
 use std::ffi::OsString;
@@ -198,10 +197,7 @@ impl Sim {
             let mut sysfs_path = PathBuf::from("/sys/devices/platform");
             sysfs_path.push(&dev_name);
             sysfs_path.push(&chip_name);
-            c.sysfs_dir = Some(Dir::open_ambient_dir(
-                sysfs_path,
-                cap_std::ambient_authority(),
-            )?);
+            c.sysfs_path = sysfs_path;
             c.chip_name = chip_name;
             c.dev_name.clone_from(&dev_name);
         }
@@ -236,7 +232,7 @@ pub struct Chip {
     /// The path to the chip in /sys/device/platform.
     ///
     /// e.g. `/sys/devices/platform/gpio-sim.0`
-    sysfs_dir: Option<Dir>,
+    sysfs_path: PathBuf,
 
     /// The configuration for the chip.
     cfg: Bank,
@@ -262,11 +258,7 @@ impl Chip {
             Level::High => "pull-up",
         };
         let path = format!("sim_gpio{}/pull", offset);
-        self.sysfs_dir
-            .as_ref()
-            .unwrap()
-            .write(path, value)
-            .map_err(Error::IoError)
+        fs::write(self.sysfs_path.join(path), value).map_err(Error::IoError)
     }
 
     /// Pull a line up to simulate the line being externally driven high.
@@ -291,10 +283,7 @@ impl Chip {
 
     fn get_attr(&self, offset: Offset, attr: &str) -> Result<String> {
         let path = format!("sim_gpio{}/{}", offset, attr);
-        self.sysfs_dir
-            .as_ref()
-            .unwrap()
-            .read_to_string(path)
+        fs::read_to_string(self.sysfs_path.join(path))
             .map(|s| s.trim().to_string())
             .map_err(Error::IoError)
     }
@@ -464,7 +453,7 @@ impl Builder {
                 dev_path: PathBuf::default(),
                 chip_name: String::default(),
                 dev_name: String::default(),
-                sysfs_dir: None,
+                sysfs_path: PathBuf::default(),
             })
         }
         sim.live()?;

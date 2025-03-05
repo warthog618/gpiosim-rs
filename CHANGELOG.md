@@ -1,6 +1,8 @@
 <a name="unreleased"></a>
 
-## [Unreleased]
+## [Unreleased](https://github.com/warthog618/gpiosim-rs/compare/v0.4.1...HEAD)
+
+- drop dependency on cap_std.
 
 <a name="v0.4.1"></a>
 
@@ -84,7 +86,6 @@
 
 - initial MIT licenced release
 
-[Unreleased]: https://github.com/warthog618/gpiosim-rs/compare/v0.4.0...HEAD
 [v0.4.0]: https://github.com/warthog618/gpiosim-rs/compare/v0.3.2...v0.4.0
 [v0.3.2]: https://github.com/warthog618/gpiosim-rs/compare/v0.3.1...v0.3.2
 [v0.3.1]: https://github.com/warthog618/gpiosim-rs/compare/v0.3.0...v0.3.1
