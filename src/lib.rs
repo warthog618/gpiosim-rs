@@ -129,19 +129,19 @@ impl Sim {
         }
         let _ = write_attr(&self.dir, "live", "0");
         for (i, c) in self.chips.iter().enumerate() {
-            let bank = format!("bank{}", i);
+            let bank = format!("bank{i}");
             let bank_dir = self.dir.join(bank);
             if !bank_dir.exists() {
                 continue;
             }
             for offset in c.cfg.hogs.keys() {
-                let line_dir = bank_dir.join(format!("line{}", offset));
+                let line_dir = bank_dir.join(format!("line{offset}"));
                 let hog_dir = line_dir.join("hog");
                 let _ = fs::remove_dir(hog_dir);
                 let _ = fs::remove_dir(line_dir);
             }
             for offset in c.cfg.names.keys() {
-                let line_dir = bank_dir.join(format!("line{}", offset));
+                let line_dir = bank_dir.join(format!("line{offset}"));
                 let _ = fs::remove_dir(line_dir);
             }
             let _ = fs::remove_dir(bank_dir);
@@ -152,18 +152,18 @@ impl Sim {
 
     fn setup_configfs(&mut self) -> Result<()> {
         for (i, c) in self.chips.iter().enumerate() {
-            let bank_dir = self.dir.join(format!("bank{}", i));
+            let bank_dir = self.dir.join(format!("bank{i}"));
             fs::create_dir(&bank_dir)?;
             write_attr(&bank_dir, "label", c.cfg.label.as_bytes())?;
             write_attr(&bank_dir, "num_lines", format!("{}", c.cfg.num_lines))?;
 
             for (offset, name) in &c.cfg.names {
-                let line_dir = bank_dir.join(format!("line{}", offset));
+                let line_dir = bank_dir.join(format!("line{offset}"));
                 fs::create_dir(&line_dir)?;
                 write_attr(&line_dir, "name", name.as_bytes())?;
             }
             for (offset, hog) in &c.cfg.hogs {
-                let line_dir = bank_dir.join(format!("line{}", offset));
+                let line_dir = bank_dir.join(format!("line{offset}"));
                 if !line_dir.exists() {
                     fs::create_dir(&line_dir)?;
                 }
@@ -179,7 +179,7 @@ impl Sim {
     fn read_attrs(&mut self) -> Result<()> {
         let dev_name = read_attr(&self.dir, "dev_name")?;
         for (i, c) in self.chips.iter_mut().enumerate() {
-            let bank_dir = self.dir.join(format!("bank{}", i));
+            let bank_dir = self.dir.join(format!("bank{i}"));
             let chip_name = read_attr(&bank_dir, "chip_name")?;
             c.dev_path = "/dev".into();
             c.dev_path.push(&chip_name);
@@ -257,7 +257,7 @@ impl Chip {
             Level::Low => "pull-down",
             Level::High => "pull-up",
         };
-        let path = format!("sim_gpio{}/pull", offset);
+        let path = format!("sim_gpio{offset}/pull");
         fs::write(self.sysfs_path.join(path), value).map_err(Error::IoError)
     }
 
@@ -282,7 +282,7 @@ impl Chip {
     }
 
     fn get_attr(&self, offset: Offset, attr: &str) -> Result<String> {
-        let path = format!("sim_gpio{}/{}", offset, attr);
+        let path = format!("sim_gpio{offset}/{attr}");
         fs::read_to_string(self.sysfs_path.join(path))
             .map(|s| s.trim().to_string())
             .map_err(Error::IoError)
