@@ -9,8 +9,9 @@
 # created a sim using basic_sim.sh.
 
 SIMDIR="/sys/kernel/config/gpio-sim"
-find $SIMDIR -type d -name hog -exec rmdir '{}' '+'
-find $SIMDIR -type d -name "line*" -exec rmdir '{}' '+'
-find $SIMDIR -type d -name "bank*" -exec rmdir '{}' '+'
-rmdir $SIMDIR/*
+find $SIMDIR -type f -name live | xargs -i -0 -r sh -c 'echo 0 > {}'
+find $SIMDIR -type d -name hog -execdir rmdir '{}' '+'
+find $SIMDIR -type d -name "line*" -execdir rmdir '{}' '+'
+find $SIMDIR -type d -name "bank*" -execdir rmdir '{}' '+'
+find $SIMDIR -mindepth 1 -type d -execdir rmdir '{}' '+'
 
