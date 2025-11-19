@@ -2,6 +2,7 @@
 
 ## [Unreleased](https://github.com/warthog618/gpiosim-rs/compare/v0.4.1...HEAD)
 
+- update dependencies.
 - drop dependency on cap_std.
 
 <a name="v0.4.1"></a>
