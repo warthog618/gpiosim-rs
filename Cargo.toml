@@ -26,5 +26,5 @@ name = "pull"
 thiserror = "2.0"
 
 [dev-dependencies]
-criterion = "0.7"
+criterion = "0.8"
 gpiocdev = { version = "0.8", features = ["uapi_v1", "uapi_v2"] }
