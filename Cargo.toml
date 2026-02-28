@@ -4,7 +4,7 @@
 
 [package]
 name = "gpiosim"
-version = "0.4.1"
+version = "0.4.2"
 authors = ["Kent Gibson <warthog618@gmail.com>"]
 edition = "2021"
 rust-version = "1.63"

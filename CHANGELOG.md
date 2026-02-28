@@ -1,6 +1,10 @@
 <a name="unreleased"></a>
 
-## [Unreleased](https://github.com/warthog618/gpiosim-rs/compare/v0.4.1...HEAD)
+## [Unreleased](https://github.com/warthog618/gpiosim-rs/compare/v0.4.2...HEAD)
+
+<a name="v0.4.2"></a>
+
+## [v0.4.1] - 2026-02-28
 
 - update dependencies.
 - drop dependency on cap_std.
@@ -17,38 +21,38 @@
 
 ## [v0.4.0] - 2024-04-09
 
-- remove nohash-hasher dependency
-- remove global_counter dependency
+- remove nohash-hasher dependency.
+- remove global_counter dependency.
 
 <a name="v0.3.2"></a>
 
 ## [v0.3.2] - 2024-02-20
 
-- move shell helpers into examples
-- add basic_sim.rs example
-- update dependencies
+- move shell helpers into examples.
+- add basic_sim.rs example.
+- update dependencies.
 
 <a name="v0.3.1"></a>
 
 ## [v0.3.1] - 2023-07-04
 
-- update MSRV to 1.63
-- add benchmark
-- simplify `clean_sims.sh` again
+- update MSRV to 1.63.
+- add benchmark.
+- simplify `clean_sims.sh` again.
 
 <a name="v0.3.0"></a>
 
 ## [v0.3.0] - 2023-05-25
 
-- align `Chip` and `Simpleton` APIs
-- simplify `clean_sims.sh`
+- align `Chip` and `Simpleton` APIs.
+- simplify `clean_sims.sh`.
 
 <a name="v0.2.3"></a>
 
 ## [v0.2.3] - 2022-12-18
 
-- add `basic_sim.sh` and `clean_sims.sh`
-- fix clippy lints
+- add `basic_sim.sh` and `clean_sims.sh`.
+- fix clippy lints.
 
 <a name="v0.2.2"></a>
 
@@ -56,38 +60,39 @@
 
 <a name="v0.2.1"></a>
 
-- documentation improvements
+- documentation improvements.
 
 ## [v0.2.1] - 2022-11-07
 
-- split out from `gpiocdev` repo
-- set MSRV at 1.56
+- split out from `gpiocdev` repo.
+- set MSRV at 1.56.
 
 <a name="v0.2.0"></a>
 
 ## [v0.2.0] - 2022-10-29
 
-- add Apache-2.0 to license
-- rename `simpleton` to `Simpleton::new`
+- add Apache-2.0 to license.
+- rename `simpleton` to `Simpleton::new`.
 
 <a name="v0.1.2"></a>
 
 ## [v0.1.2] - 2022-10-23
 
-- Cargo.toml tweaks
+- Cargo.toml tweaks.
 
 <a name="v0.1.1"></a>
 
 ## [v0.1.1] - 2022-10-10
 
-- add README
+- add README.
 
 <a name="v0.1.0"></a>
 
 ## v0.1.0 - 2022-10-09
 
-- initial MIT licenced release
+- initial MIT licenced release.
 
+[v0.4.2]: https://github.com/warthog618/gpiosim-rs/compare/v0.4.1...v0.4.2
 [v0.4.1]: https://github.com/warthog618/gpiosim-rs/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/warthog618/gpiosim-rs/compare/v0.3.2...v0.4.0
 [v0.3.2]: https://github.com/warthog618/gpiosim-rs/compare/v0.3.1...v0.3.2
